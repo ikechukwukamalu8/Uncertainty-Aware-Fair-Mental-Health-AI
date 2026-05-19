@@ -52,7 +52,7 @@ Maps out the weights of predictive features to differentiate protective factors 
 
 ### 2. Bayesian Epistemic Uncertainty Distribution Across Genders
 Visualizes data density profiles to chart informational noise across protected sub-groups.
-![Epistemic Uncertainty](visuals/bayesian_uncertainty.png)
+![Epistemic Uncertainty](bayesian_uncertainty.png)
 
 ### 3. Algorithmic Fairness Optimization Matrix (Threshold Calibration vs. Disparate Impact)
 Demonstrates the group-specific boundary shifts ($\tau$) applied to completely eliminate historical bias.
