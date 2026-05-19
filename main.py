@@ -100,31 +100,31 @@ with col2:
     st.info("💡 **Methodology Context:** The optimization engine automatically applies post-processing corrections to adjust boundaries for borderline cases in response to severe class skews in the multi-year survey origin data.")
 
 # =====================================================================
-# 📉 EXPORTED GRAPH MATRIX SECTION
+# 📉 EXPORTED GRAPH MATRIX SECTION (ROOT DIRECTORY PATHS)
 # =====================================================================
 st.markdown("---")
-st.subheader("📉 Historical Analytical Visualizations")
-st.markdown("These reference figures show the overall background dataset characteristics from the repository.")
+st.subheader("📉 Background Analytical Visualizations")
+st.markdown("These reference figures display the global dataset distribution features directly from your root repository mapping.")
 
 fig_col1, fig_col2, fig_col3 = st.columns(3)
 
 with fig_col1:
     st.markdown("##### 1. Feature Weights Matrix")
-    if os.path.exists("visuals/bayesian_weights.png"):
-        st.image("visuals/bayesian_weights.png", width='stretch')
+    if os.path.exists("bayesian_weights.png"):
+        st.image("bayesian_weights.png", width='stretch')
     else:
-        st.caption("ℹ️ *Image 'visuals/bayesian_weights.png' will render here once pushed to GitHub.*")
+        st.caption("ℹ️ *Image 'bayesian_weights.png' not detected in root directory.*")
 
 with fig_col2:
     st.markdown("##### 2. Uncertainty Distributions")
-    if os.path.exists("visuals/bayesian_uncertainty.png"):
-        st.image("visuals/bayesian_uncertainty.png", width='stretch')
+    if os.path.exists("bayesian_uncertainty.png"):
+        st.image("bayesian_uncertainty.png", width='stretch')
     else:
-        st.caption("ℹ️ *Image 'visuals/bayesian_uncertainty.png' will render here once pushed to GitHub.*")
+        st.caption("ℹ️ *Image 'bayesian_uncertainty.png' not detected in root directory.*")
 
 with fig_col3:
     st.markdown("##### 3. Fairness Harmonization")
-    if os.path.exists("visuals/fairness_adjustment.png"):
-        st.image("visuals/fairness_adjustment.png", width='stretch')
+    if os.path.exists("fairness_adjustment.png"):
+        st.image("fairness_adjustment.png", width='stretch')
     else:
-        st.caption("ℹ️ *Image 'visuals/fairness_adjustment.png' will render here once pushed to GitHub.*")
+        st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected in root directory.*")
