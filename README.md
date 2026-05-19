@@ -56,7 +56,7 @@ Visualizes data density profiles to chart informational noise across protected s
 
 ### 3. Algorithmic Fairness Optimization Matrix (Threshold Calibration vs. Disparate Impact)
 Demonstrates the group-specific boundary shifts ($\tau$) applied to completely eliminate historical bias.
-![Algorithmic Fairness Adjustment](visuals/fairness_adjustment.png)
+![Algorithmic Fairness Adjustment](fairness_adjustment.png)
 
 ---
 
