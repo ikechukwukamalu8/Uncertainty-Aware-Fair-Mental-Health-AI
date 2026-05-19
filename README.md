@@ -23,7 +23,7 @@ An advanced, dual-layered computational framework processing a harmonized multi-
 | **Coworker Discussion** (Yes) | $0.5833^{***}$ | $0.111$ | $5.250$ | $0.000$ | $[0.366, 0.801]$ |
 | **Age** (Continuous) | $-0.0004$ | $0.006$ | $-0.059$ | $0.953$ | $[-0.012, 0.012]$ |
 
-**Note:** **p** **<** 0.05, *****p < 0.001. Model estimated via Maximum Likelihood Estimation (N = 1,242).**
+**Note:** ***p** **<** 0.05, *****p **<** 0.001. Model estimated via Maximum Likelihood Estimation (N = 1,242).**
 
 ### Table 2: Algorithmic Vulnerability Screening Performance (Holdout Set)
 | Classification Framework | Target Risk Class | Precision | Recall (Sensitivity) | $F_1$-Score | Sample Support | Global Accuracy |
