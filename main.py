@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 
-# Set up elite page configuration
+# Page configurations
 st.set_page_config(
     page_title="Workplace Mental Health Screening Engine",
     page_icon="🧠",
@@ -62,7 +62,7 @@ if show_ml:
         "Sample Support": [87, 162, 87, 162],
         "Global Accuracy": ["67.0%", "67.0%", "65.0%", "65.0%"]
     }
-    st.dataframe(pd.DataFrame(table2_data), use_container_width=True)
+    st.dataframe(pd.DataFrame(table2_data), width='stretch')
 
 # Section 3: Fairness Optimization & Charts
 if show_fairness:
@@ -83,26 +83,25 @@ if show_fairness:
     
     st.markdown("### 📉 Analytical Visualizations Matrix")
     
-    # Render images side-by-side or cleanly down the page
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("#### 1. Bayesian Feature Weight Matrix")
         if os.path.exists("visuals/bayesian_weights.png"):
-            st.image("visuals/bayesian_weights.png", use_container_width=True)
+            st.image("visuals/bayesian_weights.png", width='stretch')
         else:
             st.info("Image 'visuals/bayesian_weights.png' will load once uploaded to GitHub.")
 
         st.markdown("#### 2. Algorithmic Fairness Optimization Matrix")
         if os.path.exists("visuals/fairness_adjustment.png"):
-            st.image("visuals/fairness_adjustment.png", use_container_width=True)
+            st.image("visuals/fairness_adjustment.png", width='stretch')
         else:
             st.info("Image 'visuals/fairness_adjustment.png' will load once uploaded to GitHub.")
 
     with col2:
         st.markdown("#### 3. Epistemic Uncertainty Distribution Across Genders")
         if os.path.exists("visuals/bayesian_uncertainty.png"):
-            st.image("visuals/bayesian_uncertainty.png", use_container_width=True)
+            st.image("visuals/bayesian_uncertainty.png", width='stretch')
         else:
             st.info("Image 'visuals/bayesian_uncertainty.png' will load once uploaded to GitHub.")
 
