@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 st.title("🧠 Fair & Uncertainty-Aware Decision Support System")
-st.markdown("### Interactive Research Dashboard — *King's College London Presentation*")
+st.markdown("### Interactive Research Dashboard")
 st.markdown("---")
 
 # Cached Data Ingestion Guard
