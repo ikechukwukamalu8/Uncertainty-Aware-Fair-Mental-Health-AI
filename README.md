@@ -48,7 +48,7 @@ An advanced, dual-layered computational framework processing a harmonized multi-
 
 ### 1. Bayesian Feature Weight Matrix (Mean Coefficients)
 Maps out the weights of predictive features to differentiate protective factors from lagging risk flags.
-![Feature Weights](visuals/bayesian_weights.png)
+![Feature Weights](bayesian_weights.png)
 
 ### 2. Bayesian Epistemic Uncertainty Distribution Across Genders
 Visualizes data density profiles to chart informational noise across protected sub-groups.
