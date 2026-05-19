@@ -2,7 +2,7 @@
 
 An advanced, dual-layered computational framework processing a harmonized multi-year cross-sectional survey dataset ($N = 1,242$) to deliver equitable clinical screening and psychometric behavioral insights. This system explicitly balances statistical classification performance with algorithmic ethics to mitigate demographic bias.
 
-🚀 **Interactive Live Dashboard Demo:** [https://sagem-leader-extract-prozac.trycloudflare.com](https://uncertainty-aware-fair-mental-health-ai-b9ldad68zx8ksx4azymtfa.streamlit.app/)
+🚀 **Interactive Live Dashboard Demo:** https://uncertainty-aware-fair-mental-health-ai-b9ldad68zx8ksx4azymtfa.streamlit.app/
 ---
 ## 📝 Project Abstract
 
