@@ -7,7 +7,7 @@ An advanced, dual-layered computational framework processing a harmonized multi-
 ---
 ## 📝 Project Abstract
 
-* **Background:** Automated workplace mental health decision-support systems frequently inherit structural dataset gender imbalances ($68.5\%$ male representation) and latent self-reporting skews, creating critical fairness violations.
+* **Background:** Automated workplace mental health decision-support systems frequently inherit structural dataset gender imbalances ($68.5%$ male representation) and latent self-reporting skews, creating critical fairness violations.
 * **Objective:** To build an equitable screening framework that isolates psychometric determinants of psychological safety while offering uncertainty-quantified predictions that actively correct for historical demographic skews.
 * **Methodology:** The codebase integrates an **Ordered Logistic Regression Layer** evaluating an employee's latent willingness to share struggles on an 11-point ordinal scale ($0\text{--}10$), paired with a probabilistic **Bayesian Ridge Classification Layer** tracking epistemic uncertainty (posterior variance). Algorithmic equity is strictly enforced using dynamic post-hoc group-specific decision boundary optimizations ($\tau$).
 * **Core Discovery:** Psychometric estimation shows that open, horizontal peer communication paths ($\beta = 0.5833, p < 0.001$) are more than twice as effective at lowering structural thresholds for psychological safety than formal top-down employer management frameworks ($\beta = 0.2492, p = 0.034$). 
