@@ -59,14 +59,23 @@ emp_discuss = st.sidebar.selectbox("Discussed MH with Employer?", ["Yes", "No"])
 cowork_discuss = st.sidebar.selectbox("Discussed MH with Coworkers?", ["Yes", "No"])
 med_coverage = st.sidebar.selectbox("Provides Medical Coverage?", ["Yes", "No"])
 
-# Scale user inputs to mirror target dataset scales (0 to 2)
-mh_share = st.sidebar.slider("Willingness to share mental health issues (Scale 0-2)", 0, 2, 1)
+# MODIFIED: Expanded slider UI to a granular 1 to 10 scale for user convenience
+mh_share_ui = st.sidebar.slider("Willingness to share mental health issues (Scale 1-10)", 1, 10, 5)
+
+# ALGORITHMIC ADAPTATION: Map the 1-10 scale down to the model's expected 0-2 baseline scale
+# 1-3 maps to 0 (Low), 4-7 maps to 1 (Medium), 8-10 maps to 2 (High)
+if mh_share_ui <= 3:
+    mh_share_mapped = 0
+elif mh_share_ui <= 7:
+    mh_share_mapped = 1
+else:
+    mh_share_mapped = 2
 
 # Build a one-row evaluation dataframe matching structural expectations
 user_input = pd.DataFrame([{
     'tech_company': tech_company, 'benefits': benefits, 'workplace_resources': resources,
     'mh_employer_discussion': emp_discuss, 'mh_coworker_discussion': cowork_discuss,
-    'medical_coverage': med_coverage, 'mh_share': mh_share, 'age': age
+    'medical_coverage': med_coverage, 'mh_share': mh_share_mapped, 'age': age
 }])
 
 # =====================================================================
