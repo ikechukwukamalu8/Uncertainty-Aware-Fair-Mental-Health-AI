@@ -119,7 +119,7 @@ with col2:
     st.info("💡 **Methodology Context:** The optimization engine automatically applies post-processing corrections to adjust boundaries for borderline cases in response to severe class skews in the multi-year survey origin data.")
 
 # =====================================================================
-# 📉 EXPORTED GRAPH MATRIX SECTION (ROOT DIRECTORY PATHS)
+# 📉 EXPORTED GRAPH MATRIX SECTION (ROOT DIRECTORY FIXED MATCHES)
 # =====================================================================
 st.markdown("---")
 st.subheader("📉 Background Analytical Visualizations")
@@ -131,21 +131,19 @@ with fig_col1:
     st.markdown("##### 1. Feature Weights Matrix")
     if os.path.exists("bayesian_weights.png"):
         st.image("bayesian_weights.png", use_container_width=True)
-    elif os.path.exists("bayesian_weights.png"):
-        st.image("bayesian_weights.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'bayesian_weights.png' not detected.*")
+        st.caption("ℹ️ *Image 'bayesian_weights.png' not detected in root directory.*")
 
 with fig_col2:
     st.markdown("##### 2. Uncertainty Distributions")
-    if os.path.exists("visuals/bayesian_uncertainty.png"):
-        st.image("visuals/bayesian_uncertainty.png", use_container_width=True)
+    if os.path.exists("bayesian_uncertainty.png"):
+        st.image("bayesian_uncertainty.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'bayesian_uncertainty.png' not detected.*")
+        st.caption("ℹ️ *Image 'bayesian_uncertainty.png' not detected in root directory.*")
 
 with fig_col3:
     st.markdown("##### 3. Fairness Harmonization")
     if os.path.exists("fairness_adjustment.png"):
-        st.image("visuals/fairness_adjustment.png", use_container_width=True)
+        st.image("fairness_adjustment.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected.*")
+        st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected in root directory.*")
