@@ -129,8 +129,8 @@ fig_col1, fig_col2, fig_col3 = st.columns(3)
 
 with fig_col1:
     st.markdown("##### 1. Feature Weights Matrix")
-    if os.path.exists("visuals/bayesian_weights.png"):
-        st.image("visuals/bayesian_weights.png", use_container_width=True)
+    if os.path.exists("bayesian_weights.png"):
+        st.image("bayesian_weights.png", use_container_width=True)
     elif os.path.exists("bayesian_weights.png"):
         st.image("bayesian_weights.png", use_container_width=True)
     else:
@@ -145,7 +145,7 @@ with fig_col2:
 
 with fig_col3:
     st.markdown("##### 3. Fairness Harmonization")
-    if os.path.exists("visuals/fairness_adjustment.png"):
+    if os.path.exists("fairness_adjustment.png"):
         st.image("visuals/fairness_adjustment.png", use_container_width=True)
     else:
         st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected.*")
