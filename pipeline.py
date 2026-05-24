@@ -4,38 +4,8 @@ Framework: An Uncertainty-Aware and Fair Machine Learning Architecture for Workp
 Author:    Ikechukwu Okechi Kamalu 
 Module:    Probabilistic Predictive Engine & Post-Processing Optimization Matrix
 """
-
 import os
 import sys
-import subprocess
-
-# 1. Automated Dependency Guard
-def install_dependencies():
-    """Ensures required libraries are present before running mathematical layers."""
-    required_packages = [
-        "pandas", "numpy", "scikit-learn", "statsmodels", "matplotlib", "seaborn"
-    ]
-    missing_packages = []
-    for pkg in required_packages:
-        try:
-            __import__(pkg)
-        except ImportError:
-            missing_packages.append(pkg)
-            
-    if missing_packages:
-        print(f"📦 Missing libraries detected: {missing_packages}. Installing now...")
-        try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", *missing_packages])
-            print("✅ All dependencies successfully configured.\n")
-        except Exception as e:
-            print(f"❌ Error setting up packages automatically: {e}")
-            print("Please run manually: pip install pandas numpy scikit-learn statsmodels matplotlib seaborn")
-            sys.exit(1)
-
-# Initialize dependency enforcement
-install_dependencies()
-
-# Core Data Science imports after verification guard
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -46,37 +16,41 @@ from sklearn.metrics import classification_report
 import statsmodels.api as sm
 from statsmodels.miscmodels.ordinal_model import OrderedModel
 import warnings
-# Silence internal warnings gracefully from printing raw clutter
+
+# Silence internal framework warning logs gracefully
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=UserWarning)
 
-
 def run_framework():
-    # 2. Workspace & Data Verification Setup
+    # -------------------------------------------------------------------------
+    # 1. LOCAL DATA VERIFICATION SETUP
+    # -------------------------------------------------------------------------
     data_path = 'data.csv'
     if not os.path.exists(data_path):
         print(f"❌ Critical Error: '{data_path}' was not found in the current directory.")
-        print("💡 Please place your 'data.csv' dataset file in the same folder as this script and run again.")
+        print("💡 Please ensure your 'data.csv' file is located in the same directory as this script.")
         sys.exit(1)
         
     print("=" * 80)
     print("🚀 INITIALIZING EQUITABLE WORKPLACE SCREENING FRAMEWORK")
     print("=" * 80)
     
-    # Load dataset
+    # Load and preprocess dataset
     df = pd.read_csv(data_path)
+    print(f"✅ Data Successfully Loaded! Shape: {df.shape[0]} rows\n")
     
-    # Clean string white spaces if any
+    # Clean string trailing spaces
     for col in df.select_dtypes(include=['object']).columns:
         df[col] = df[col].astype(str).str.strip()
         
-    # Target variable engineering
+    # Process target vector label map
     df['target_mental_health'] = df['mental_health'].apply(lambda x: 1 if x in ['Yes', 'Possibly'] else 0)
 
     # -------------------------------------------------------------------------
-    # LAYER 1: PSYCHOMETRIC ANALYSIS (Ordered Logistic Regression)
+    # 2. PSYCHOMETRIC ANALYSIS LAYER (Ordered Logit)
     # -------------------------------------------------------------------------
-    print("\n📊 RUNNING PILLAR 1: LATENT BEHAVIORAL PSYCHOMETRIC ANALYSIS...")
+    print("\n📊 Part 1: PSYCHOMETRIC ANALYSIS (Ordered Logit Summary Table)")
+    print("-" * 80)
     
     psy_df = df.copy()
     mapping = {'Yes': 1, 'No': 0, "I don't know": 0}
@@ -84,114 +58,129 @@ def run_framework():
     psy_df['coworker_talk'] = psy_df['mh_coworker_discussion'].map(mapping).fillna(0)
 
     X_psy = psy_df[['employer_talk', 'coworker_talk', 'age']]
-    X_psy = sm.add_constant(X_psy)
     y_psy = psy_df['mh_share'].astype(int)
 
-    # Calculate model summary parameters
     ol_model = OrderedModel(y_psy, X_psy, distr='logit')
     ol_results = ol_model.fit(disp=False)
-    
-    print("\n" + "-"*40 + " ORDERED LOGIT RESULTS SUMMARY " + "-"*40)
     print(ol_results.summary().tables[1])
-    print("-" * 111)
-    print("💡 Operational Takeaway: Horizontal coworker communication paths carry significantly larger")
-    print("   structural effects than formal top-down employer interventions.")
 
     # -------------------------------------------------------------------------
-    # LAYER 2: MACHINE LEARNING ACCURACY AUDIT (Probabilistic Bayesian Model)
+    # 3. PROBABILISTIC MACHINE LEARNING ML PIPELINE
     # -------------------------------------------------------------------------
-    print("\n\n🧠 RUNNING PILLAR 2: PROBABILISTIC MACHINE LEARNING PREDICTIVE MATRIX...")
-    
-    # FIXED: Isolated 'gender' from features array to enforce strict structural blindness during training
-    features = ['tech_company', 'benefits', 'workplace_resources', 
-                'mh_employer_discussion', 'mh_coworker_discussion', 'medical_coverage', 'mh_share', 'age']
+    features = ['tech_company', 'benefits', 'workplace_resources',
+                'mh_employer_discussion', 'mh_coworker_discussion', 'medical_coverage', 'mh_share', 'age', 'gender']
 
     X_ml = pd.get_dummies(df[features], drop_first=True)
     y_ml = df['target_mental_health']
     gender_series = df['gender']
 
-    # Synchronized holdout partition split
     X_train, X_test, y_train, y_test, _, gender_test = train_test_split(
         X_ml, y_ml, gender_series, test_size=0.2, random_state=42, stratify=y_ml
     )
 
-    # Fit pure Bayesian Ridge model pipeline
     bayes_model = BayesianRidge()
     bayes_model.fit(np.array(X_train, dtype=np.float64), np.array(y_train, dtype=np.float64))
 
-    # Generate test set continuous output scores (mean expected risk parameters)
-    probs_mean = bayes_model.predict(np.array(X_test, dtype=np.float64))
-    probs_mean_clipped = np.clip(probs_mean, 0, 1)
+    # Derive probability and uncertainty parameters
+    probs_mean, probs_std = bayes_model.predict(np.array(X_test, dtype=np.float64), return_std=True)
+    probs_clipped = np.clip(probs_mean, 0, 1)
+    baseline_preds = (probs_clipped >= 0.5).astype(int)
 
-    # Baseline calculations (Standard 0.50 Threshold Strategy)
-    preds_baseline = (probs_mean_clipped >= 0.50).astype(int)
-    
-    print("\n❌ UNADJUSTED BASELINE MODEL METRICS (Standard Global Threshold 0.50)")
-    print(classification_report(y_test, preds_baseline))
-    
-    test_results = pd.DataFrame({'gender': gender_test.values, 'score': probs_mean_clipped})
-    
-    male_base_rate = (test_results[test_results['gender'] == 'Male']['score'] >= 0.50).mean()
-    female_base_rate = (test_results[test_results['gender'] == 'Female']['score'] >= 0.50).mean()
-    baseline_di = female_base_rate / (male_base_rate + 1e-9)
-    
-    print(f"   · Baseline Male Risk Selection Rate:   {male_base_rate:.3f}")
-    print(f"   · Baseline Female Risk Selection Rate: {female_base_rate:.3f}")
-    print(f"   · Baseline Disparate Impact Ratio:     {baseline_di:.3f} ⚠️ (Bias Detected)")
+    print("\n" + "=" * 80)
+    print("❌ Part 2: UNADJUSTED BASELINE CLASSIFICATION METRICS (Global Threshold 0.50)")
+    print("=" * 80)
+    print(classification_report(y_test, baseline_preds))
 
-    # -------------------------------------------------------------------------
-    # LAYER 3: ALGORITHMIC EQUITY REMEDIATION (Boundary Optimization Vector)
-    # -------------------------------------------------------------------------
-    print("\n\n⚖️ RUNNING PILLAR 3: POST-PROCESSING FAIRNESS BOUNDARY OPTIMIZATION...")
-    
-    # Apply calibrated demographic boundaries
-    tau_male = 0.450
-    tau_female = 0.525
-    
-    preds_optimized = []
-    for idx, row in test_results.iterrows():
-        if row['gender'] == 'Female':
-            pred = 1 if row['score'] >= tau_female else 0
-        else:
-            pred = 1 if row['score'] >= tau_male else 0
-        preds_optimized.append(pred)
-        
-    test_results['pred_opt'] = preds_optimized
+    # Structural dataframe evaluation matrix
+    test_results = pd.DataFrame({
+        'gender': gender_test.values,
+        'prob': probs_clipped,
+        'pred': baseline_preds,
+        'uncertainty': probs_std ** 2,
+        'true': y_test.values
+    }).reset_index(drop=True)
 
-    print("\n✅ FAIRNESS-OPTIMIZED MODEL METRICS (Group-Specific Custom Threshold Vectors)")
-    print(classification_report(y_test, test_results['pred_opt']))
+    male_rate_base = test_results[test_results['gender'] == 'Male']['pred'].mean()
+    female_rate_base = test_results[test_results['gender'] == 'Female']['pred'].mean()
+    di_base = female_rate_base / (male_rate_base + 1e-9)
     
-    male_opt_rate = test_results[test_results['gender'] == 'Male']['pred_opt'].mean()
-    female_opt_rate = test_results[test_results['gender'] == 'Female']['pred_opt'].mean()
-    optimized_di = female_opt_rate / (male_opt_rate + 1e-9)
-
-    print(f"   · Optimized Male Risk Selection Rate:   {male_opt_rate:.3f}")
-    print(f"   · Optimized Female Risk Selection Rate: {female_opt_rate:.3f}")
-    print(f"   · Optimized Disparate Impact Ratio:     {optimized_di:.3f} 🎉 (Demographic Parity Targeted)")
+    print(f"· Baseline Male Selection Rate:  {male_rate_base:.3f}")
+    print(f"· Baseline Female Selection Rate: {female_rate_base:.3f}")
+    print(f"· Baseline Disparate Impact Ratio: {di_base:.3f} ⚠️ (Bias Detected)")
 
     # -------------------------------------------------------------------------
-    # LAYER 4: REPRODUCIBLE GRAPH EXPANSION EXPORT
+    # 4. POST-PROCESSING OPTIMIZATION MATRIX CORRECTIONS
     # -------------------------------------------------------------------------
-    print("\n\n🎨 EXPORTING HIGH-RESOLUTION ANALYTICAL CHARTS FOR PRESENTATION...")
+    final_preds = baseline_preds.copy()
+    for i in range(len(test_results)):
+        p = test_results.loc[i, 'prob']
+        g = test_results.loc[i, 'gender']
+        if g == 'Male':
+            final_preds[i] = 1 if p >= 0.450 else 0
+        elif g == 'Female':
+            final_preds[i] = 1 if p >= 0.525 else 0
+
+    test_results['optimized_pred'] = final_preds
+    male_rate_opt = test_results[test_results['gender'] == 'Male']['optimized_pred'].mean()
+    female_rate_opt = test_results[test_results['gender'] == 'Female']['optimized_pred'].mean()
+    di_opt = female_rate_opt / (male_rate_opt + 1e-9)
+
+    print("\n" + "=" * 80)
+    print("✅ Part 3: FAIRNESS-OPTIMIZED ADVANCED CLASSIFICATION METRICS")
+    print("=" * 80)
+    print(classification_report(y_test, final_preds))
+    print(f"· Optimized Male Selection Rate:  {male_rate_opt:.3f}")
+    print(f"· Optimized Female Selection Rate: {female_rate_opt:.3f}")
+    print(f"· Optimized Disparate Impact Ratio: {di_opt:.3f} 🎉 (Demographic Parity Targeted)")
+
+    # -------------------------------------------------------------------------
+    # 5. GRAPH ASSETS COMPILATION
+    # -------------------------------------------------------------------------
+    print("\n🎨 COMPILING HIGH-RESOLUTION ANALYTICAL VISUALIZATIONS...")
     os.makedirs('visuals', exist_ok=True)
     sns.set_theme(style="whitegrid")
 
-    # Chart 1: Feature Weight Coefficients Matrix
-    plt.figure(figsize=(10, 5))
-    coef_df = pd.DataFrame({'Feature': X_ml.columns, 'Weight': bayes_model.coef_})
-    coef_df['Abs_Weight'] = coef_df['Weight'].abs()
-    coef_df = coef_df.sort_values(by='Abs_Weight', ascending=False).head(10)
-    sns.barplot(data=coef_df, x='Weight', y='Feature', palette='coolwarm')
-    plt.title("Bayesian Feature Weight Matrix (Lagging & Protective Vector Signals)", fontsize=12, fontweight='bold')
-    plt.xlabel("Model Matrix Weight Coefficient")
+    # Figure 1: Uncertainty KDE Distribution
+    plt.figure(figsize=(9, 4.5))
+    sns.kdeplot(data=test_results[test_results['gender'].isin(['Male', 'Female'])],
+                x='uncertainty', hue='gender', fill=True, common_norm=False, palette="muted", alpha=0.5)
+    plt.title("Bayesian Epistemic Uncertainty Distribution Across Genders", fontsize=12, fontweight='bold')
+    plt.xlabel("Posterior Variance (Epistemic Uncertainty Parameter)")
+    plt.ylabel("Density Profile")
+    plt.tight_layout()
+    plt.savefig('visuals/bayesian_uncertainty.png', dpi=300)
+    plt.close()
+
+    # Figure 2: Feature Matrix Weights Chart
+    plt.figure(figsize=(9, 4.5))
+    coef_df = pd.DataFrame({'Feature': X_ml.columns, 'Coefficient': bayes_model.coef_})
+    sns.barplot(data=coef_df.sort_values(by='Coefficient', key=abs, ascending=False).head(10), 
+                x='Coefficient', y='Feature', hue='Feature', palette='coolwarm', legend=False)
+    plt.title("Bayesian Feature Weight Matrix (Mean Coefficients)", fontsize=12, fontweight='bold')
+    plt.xlabel("Weight Value")
     plt.tight_layout()
     plt.savefig('visuals/bayesian_weights.png', dpi=300)
     plt.close()
 
-    print("   📸 Saved: 'visuals/bayesian_weights.png'")
-    print("=" * 80)
-    print("🎉 ALL PROCESSING VECTORS COMPLETE. PIPELINE TERMINATED SUCCESSFULLY.")
-    print("=" * 80)
+    # Figure 3: Fairness Adjustments Comparison Map
+    plt.figure(figsize=(8, 4.5))
+    rates_df = pd.DataFrame({
+        'Metric': ['Male Selection Rate', 'Female Selection Rate', 'Disparate Impact'] * 2,
+        'Value': [male_rate_base, female_rate_base, di_base, male_rate_opt, female_rate_opt, di_opt],
+        'Model Status': ['Unadjusted'] * 3 + ['Fairness Corrected'] * 3
+    })
+    sns.barplot(data=rates_df, x='Metric', y='Value', hue='Model Status', palette='Set2')
+    plt.axhline(1.0, linestyle='--', color='gray', alpha=0.7, label='Ideal Parity (1.0)')
+    plt.axhline(0.8, linestyle=':', color='red', alpha=0.5, label='Statutory Limits (0.8 - 1.25)')
+    plt.axhline(1.25, linestyle=':', color='red', alpha=0.5)
+    plt.title("Fairness Metric Harmonization Before vs After Correction", fontsize=12, fontweight='bold')
+    plt.ylabel("Value / Ratio Scale")
+    plt.legend(loc='upper right')
+    plt.tight_layout()
+    plt.savefig('visuals/fairness_adjustment.png', dpi=300)
+    plt.close()
+
+    print("\n🎉 ALL PIPELINE VECTORS COMPLETE. PLOTS GENERATED SUCCESSFULLY IN './visuals/' FOLDER.\n")
 
 if __name__ == "__main__":
     run_framework()
