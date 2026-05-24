@@ -32,9 +32,10 @@ def load_data():
     df['target_mental_health'] = df['mental_health'].apply(lambda x: 1 if x in ['Yes', 'Possibly'] else 0)
     return df
 
+# 1. Load Data (Only data loading is cached)
 df = load_data()
 
-# FIXED: Isolated gender out of training features matrix to maintain structural blindness
+# 2. Separate Features and Isolate Gender for Structural Blindness
 features = ['tech_company', 'benefits', 'workplace_resources', 
             'mh_employer_discussion', 'mh_coworker_discussion', 'medical_coverage', 'mh_share', 'age']
 
@@ -42,7 +43,7 @@ features = ['tech_company', 'benefits', 'workplace_resources',
 X = pd.get_dummies(df[features], drop_first=True)
 y = df['target_mental_health']
 
-# Fit background Bayesian Predictive Matrix
+# 3. Fit Background Bayesian Predictive Matrix (Runs fresh on initialization)
 model = BayesianRidge()
 model.fit(np.array(X, dtype=np.float64), np.array(y, dtype=np.float64))
 
@@ -59,11 +60,10 @@ emp_discuss = st.sidebar.selectbox("Discussed MH with Employer?", ["Yes", "No"])
 cowork_discuss = st.sidebar.selectbox("Discussed MH with Coworkers?", ["Yes", "No"])
 med_coverage = st.sidebar.selectbox("Provides Medical Coverage?", ["Yes", "No"])
 
-# MODIFIED: Expanded slider UI to a granular 1 to 10 scale for user convenience
+# Granular 1 to 10 scale for user convenience
 mh_share_ui = st.sidebar.slider("Willingness to share mental health issues (Scale 1-10)", 1, 10, 5)
 
 # ALGORITHMIC ADAPTATION: Map the 1-10 scale down to the model's expected 0-2 baseline scale
-# 1-3 maps to 0 (Low), 4-7 maps to 1 (Medium), 8-10 maps to 2 (High)
 if mh_share_ui <= 3:
     mh_share_mapped = 0
 elif mh_share_ui <= 7:
@@ -81,7 +81,7 @@ user_input = pd.DataFrame([{
 # =====================================================================
 # 🛠️ ALIGNMENT TRANSFORMATION BRIDGE (ROBUST COUPLING)
 # =====================================================================
-# Concatenate user row with features blueprint structure to preserve categorical options
+# Concatenate user row with a blank feature blueprint to preserve structural options
 blueprint_df = pd.DataFrame(columns=features)
 user_padded = pd.concat([blueprint_df, user_input], ignore_index=True)
 
@@ -91,8 +91,9 @@ user_encoded = user_encoded.reindex(columns=X.columns, fill_value=0)
 user_encoded = user_encoded.astype(np.float64)
 
 # =====================================================================
-# 🔮 REAL-TIME COMPUTATIONAL COMPUTATION LAYER
+# 🔮 REAL-TIME COMPUTATIONAL LAYER
 # =====================================================================
+# Predict score directly using fresh matrix modifications
 prob_mean, prob_std = model.predict(np.array(user_encoded, dtype=np.float64), return_std=True)
 risk_probability = np.clip(prob_mean[0], 0, 1)
 epistemic_uncertainty = float(prob_std[0]**2)
