@@ -24,11 +24,19 @@ def load_data():
         st.info("💡 Please ensure your 'data.csv' dataset file is uploaded right next to this script.")
         st.stop()
     df = pd.read_csv(data_path)
+    
+    # Strip whitespace anomalies
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col] = df[col].astype(str).str.strip()
+        
     df['target_mental_health'] = df['mental_health'].apply(lambda x: 1 if x in ['Yes', 'Possibly'] else 0)
     return df
 
 df = load_data()
-features = ['tech_company', 'benefits', 'workplace_resources', 'mh_employer_discussion', 'mh_coworker_discussion', 'medical_coverage', 'mh_share', 'age', 'gender']
+
+# FIXED: Isolated gender out of training features matrix to maintain structural blindness
+features = ['tech_company', 'benefits', 'workplace_resources', 
+            'mh_employer_discussion', 'mh_coworker_discussion', 'medical_coverage', 'mh_share', 'age']
 
 # Standardize dummy encoding vectors based on background survey distribution
 X = pd.get_dummies(df[features], drop_first=True)
@@ -43,27 +51,33 @@ model.fit(np.array(X, dtype=np.float64), np.array(y, dtype=np.float64))
 # =====================================================================
 st.sidebar.header("📋 Input Employee Profile")
 age = st.sidebar.slider("Age of Employee", 18, 65, 30)
-gender = st.sidebar.selectbox("Gender Identity", ["Male", "Female", "Other"])
+gender = st.sidebar.selectbox("Gender Identity (Used for Equity Adjustment Only)", ["Male", "Female", "Other"])
 tech_company = st.sidebar.selectbox("Is it a Tech Company?", ["Yes", "No"])
 benefits = st.sidebar.selectbox("Offers Mental Health Benefits?", ["Yes", "No", "I don't know"])
 resources = st.sidebar.selectbox("Provides Mental Health Resources?", ["Yes", "No", "I don't know"])
 emp_discuss = st.sidebar.selectbox("Discussed MH with Employer?", ["Yes", "No"])
 cowork_discuss = st.sidebar.selectbox("Discussed MH with Coworkers?", ["Yes", "No"])
 med_coverage = st.sidebar.selectbox("Provides Medical Coverage?", ["Yes", "No"])
-mh_share = st.sidebar.slider("Willingness to share mental health issues with friends/family", 0, 10, 5)
 
-# Build a one-row evaluation dataframe from the sidebar choices
+# Scale user inputs to mirror target dataset scales (0 to 2)
+mh_share = st.sidebar.slider("Willingness to share mental health issues (Scale 0-2)", 0, 2, 1)
+
+# Build a one-row evaluation dataframe matching structural expectations
 user_input = pd.DataFrame([{
-    'age': age, 'mh_share': mh_share, 'tech_company': tech_company, 'benefits': benefits,
-    'workplace_resources': resources, 'mh_employer_discussion': emp_discuss,
-    'mh_coworker_discussion': cowork_discuss, 'medical_coverage': med_coverage, 'gender': gender
+    'tech_company': tech_company, 'benefits': benefits, 'workplace_resources': resources,
+    'mh_employer_discussion': emp_discuss, 'mh_coworker_discussion': cowork_discuss,
+    'medical_coverage': med_coverage, 'mh_share': mh_share, 'age': age
 }])
 
 # =====================================================================
-# 🛠️ ALIGNMENT TRANSFORMATION BRIDGE (HOTFIX APPLIED)
+# 🛠️ ALIGNMENT TRANSFORMATION BRIDGE (ROBUST COUPLING)
 # =====================================================================
-# Transform the user inputs to standard dummy indicators and align structural columns
-user_encoded = pd.get_dummies(user_input)
+# Concatenate user row with features blueprint structure to preserve categorical options
+blueprint_df = pd.DataFrame(columns=features)
+user_padded = pd.concat([blueprint_df, user_input], ignore_index=True)
+
+# Generate identical structural dummies, enforcing drop_first constraint symmetrically
+user_encoded = pd.get_dummies(user_padded, drop_first=True)
 user_encoded = user_encoded.reindex(columns=X.columns, fill_value=0)
 user_encoded = user_encoded.astype(np.float64)
 
@@ -72,7 +86,7 @@ user_encoded = user_encoded.astype(np.float64)
 # =====================================================================
 prob_mean, prob_std = model.predict(np.array(user_encoded, dtype=np.float64), return_std=True)
 risk_probability = np.clip(prob_mean[0], 0, 1)
-epistemic_uncertainty = prob_std[0]**2
+epistemic_uncertainty = float(prob_std[0]**2)
 
 # Apply post-processing group-specific threshold corrections
 if gender == 'Male':
@@ -115,21 +129,23 @@ fig_col1, fig_col2, fig_col3 = st.columns(3)
 
 with fig_col1:
     st.markdown("##### 1. Feature Weights Matrix")
-    if os.path.exists("bayesian_weights.png"):
-        st.image("bayesian_weights.png", width='stretch')
+    if os.path.exists("visuals/bayesian_weights.png"):
+        st.image("visuals/bayesian_weights.png", use_container_width=True)
+    elif os.path.exists("bayesian_weights.png"):
+        st.image("bayesian_weights.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'bayesian_weights.png' not detected in root directory.*")
+        st.caption("ℹ️ *Image 'bayesian_weights.png' not detected.*")
 
 with fig_col2:
     st.markdown("##### 2. Uncertainty Distributions")
-    if os.path.exists("bayesian_uncertainty.png"):
-        st.image("bayesian_uncertainty.png", width='stretch')
+    if os.path.exists("visuals/bayesian_uncertainty.png"):
+        st.image("visuals/bayesian_uncertainty.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'bayesian_uncertainty.png' not detected in root directory.*")
+        st.caption("ℹ️ *Image 'bayesian_uncertainty.png' not detected.*")
 
 with fig_col3:
     st.markdown("##### 3. Fairness Harmonization")
-    if os.path.exists("fairness_adjustment.png"):
-        st.image("fairness_adjustment.png", width='stretch')
+    if os.path.exists("visuals/fairness_adjustment.png"):
+        st.image("visuals/fairness_adjustment.png", use_container_width=True)
     else:
-        st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected in root directory.*")
+        st.caption("ℹ️ *Image 'fairness_adjustment.png' not detected.*")
