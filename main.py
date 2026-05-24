@@ -59,8 +59,13 @@ user_input = pd.DataFrame([{
     'mh_coworker_discussion': cowork_discuss, 'medical_coverage': med_coverage, 'gender': gender
 }])
 
-# Align the user inputs with the model's structural feature columns
-user_encoded = pd.get_dummies(user_input).reindex(columns=X.columns, fill_value=0)
+# =====================================================================
+# 🛠️ ALIGNMENT TRANSFORMATION BRIDGE (HOTFIX APPLIED)
+# =====================================================================
+# Transform the user inputs to standard dummy indicators and align structural columns
+user_encoded = pd.get_dummies(user_input)
+user_encoded = user_encoded.reindex(columns=X.columns, fill_value=0)
+user_encoded = user_encoded.astype(np.float64)
 
 # =====================================================================
 # 🔮 REAL-TIME COMPUTATIONAL COMPUTATION LAYER
