@@ -68,7 +68,7 @@ To deploy the processing pipeline locally without notebooks, follow these termin
    git clone [https://github.com/ikechukwukamalu8/Uncertainty-Aware-Fair-Mental-Health-AI.git](https://github.com/ikechukwukamalu8/Uncertainty-Aware-Fair-Mental-Health-AI.git)
    cd Uncertainty-Aware-Fair-Mental-Health-AI
 
-   ## 📂 Repository File Architecture
+## 📂 Repository File Architecture
 
 This repository is split into two core execution layers to balance rigorous offline research auditing with a safe, identity-blind live production environment.
 
