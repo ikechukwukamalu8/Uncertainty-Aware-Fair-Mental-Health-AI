@@ -67,3 +67,23 @@ To deploy the processing pipeline locally without notebooks, follow these termin
    ```bash
    git clone [https://github.com/ikechukwukamalu8/Uncertainty-Aware-Fair-Mental-Health-AI.git](https://github.com/ikechukwukamalu8/Uncertainty-Aware-Fair-Mental-Health-AI.git)
    cd Uncertainty-Aware-Fair-Mental-Health-AI
+
+   ## 📂 Repository File Architecture
+
+This repository is split into two core execution layers to balance rigorous offline research auditing with a safe, identity-blind live production environment.
+
+### 1. `pipeline.py` (Probabilistic Predictive Engine & Research Audit Matrix)
+This script handles the backend data science pipeline, statistical validation, and fairness diagnostics. It is used in the **Research Phase** to hunt down historical bias and calculate the exact safety boundaries required for systemic equity.
+* **Psychometric Discovery:** Runs an *Ordered Logistic Regression* on an 11-point scale to analyze what environmental factors drive employees to discuss mental health.
+* **Probabilistic Modeling:** Implements a *Bayesian Ridge Regression* model using an **80/20 train/test split** (993 training rows / 249 unseen testing rows) to calculate expected risk scores and track epistemic uncertainty (the model's internal self-doubt).
+* **Bias Auditing Phase:** Processes **9 raw fields (12 structural features)**, keeping the sensitive `gender` attribute visible to explicitly measure the baseline **1.276 Disparate Impact Ratio**.
+* **Threshold Optimization:** Runs a *Post-Hoc Grid Search Simulation* in increments of 0.5% to discover the mathematically optimal decision boundaries ($\tau_{\text{Male}} = 0.450$ and $\tau_{\text{Female}} = 0.525$) that bring the system into regulatory compliance.
+* **Asset Compilation:** Automatically generates and exports high-resolution analytical charts to the `./visuals/` folder (`bayesian_weights.png`, `bayesian_uncertainty.png`, and `fairness_adjustment.png`).
+
+### 2. `main.py` (Interactive Streamlit Production Dashboard)
+This script launches the interactive, user-facing web application. It acts as the **Deployment Phase**, allowing organizations or individual employees to evaluate profile criteria in real-time.
+* **Operational Identity Blindness:** Ingests **8 raw fields** and completely drops the `gender` input from the core calculation matrix. The machine learning engine remains 100% blind to protected demographics during scoring to eliminate automated discrimination.
+* **Data Density Optimization:** Trains its background model on **100% of the clean dataset pool (1,242 rows)** to minimize epistemic uncertainty, maximize information density, and ensure runtime stability.
+* **Symmetric Transformation Bridge:** Expands user selections into a full **16-dimensional symmetrical feature matrix** without category dropping. This prevents shape mismatches and completely eliminates system crashes when users select unexpected survey responses (such as *"I don't know"*).
+* **Post-Hoc Routing Engine:** Uses the administrative gender dropdown purely *after the calculation* to route the blind vulnerability score to its optimized group boundary, automatically altering the final outcome to protect social equity.
+* **Real-Time Uncertainty Tracking:** Features interactive slider components and an automated risk monitor that surfaces the calculated probability alongside the quantified **Epistemic Uncertainty (Posterior Variance)** for every individual profile evaluation.
