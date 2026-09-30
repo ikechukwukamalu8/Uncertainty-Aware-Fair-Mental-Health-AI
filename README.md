@@ -1,6 +1,6 @@
 ﻿# An Uncertainty-Aware and Fair Machine Learning Architecture for Workplace Mental Health Screening
 
-An advanced, dual-layered computational framework processing a harmonized multi-year cross-sectional survey dataset ($N = 1,242$) to deliver equitable clinical screening and psychometric behavioral insights. This system explicitly balances statistical classification performance with algorithmic ethics to mitigate demographic bias.
+An advanced, dual-layered computational framework processing a harmonized multi-year cross-sectional survey dataset ($N = 1,242$) to deliver equitable screening and psychometric behavioral insights. This system explicitly balances statistical classification performance with algorithmic ethics to mitigate demographic bias.
 
 🚀 **Interactive Live Dashboard Demo:** https://uncertainty-aware-fair-mental-health-ai-ksff2ss4ynfu4bn6w6aouz.streamlit.app
 
