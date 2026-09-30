@@ -87,3 +87,15 @@ This script launches the interactive, user-facing web application. It acts as th
 * **Symmetric Transformation Bridge:** Expands user selections into a full **16-dimensional symmetrical feature matrix** without category dropping. This prevents shape mismatches and completely eliminates system crashes when users select unexpected survey responses (such as *"I don't know"*).
 * **Post-Hoc Routing Engine:** Uses the administrative gender dropdown purely *after the calculation* to route the blind vulnerability score to its optimized group boundary, automatically altering the final outcome to protect social equity.
 * **Real-Time Uncertainty Tracking:** Features interactive slider components and an automated risk monitor that surfaces the calculated probability alongside the quantified **Epistemic Uncertainty (Posterior Variance)** for every individual profile evaluation.
+
+## Author
+
+**Ikechukwu Okechi Kamalu, MSc**
+
+Machine Learning Researcher & Biostatistician
+
+**Email:** ikechukwukamalu8@gmail.com
+
+**ORCID:** https://orcid.org/0009-0008-3922-6310
+
+**GitHub:** https://github.com/ikechukwukamalu8
