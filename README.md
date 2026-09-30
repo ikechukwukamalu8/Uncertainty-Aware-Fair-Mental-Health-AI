@@ -47,15 +47,15 @@ An advanced, dual-layered computational decision-support framework processing a 
 ### 📉 Core Analytical Visualizations
 
 ### 1. Bayesian Feature Weight Matrix (Mean Coefficients)
-Maps out the weights of predictive features inside the fitted scoring model[cite: 16, 17].
+Maps out the weights of predictive features inside the fitted scoring model.
 ![Feature Weights](bayesian_weights.png)
 
 ### 2. Bayesian Predictive Uncertainty Distribution Across Genders
-Visualizes predictive variance across demographic groups to evaluate informational noise[cite: 20, 33].
+Visualizes predictive variance across demographic groups to evaluate informational noise.
 ![Epistemic Uncertainty](bayesian_uncertainty.png)
 
 ### 3. Algorithmic Fairness Optimization Matrix (Threshold Calibration vs. Disparate Impact)
-Demonstrates the group-specific boundary adjustments ($\tau$) applied to harmonize selection rates[cite: 27, 28].
+Demonstrates the group-specific boundary adjustments ($\tau$) applied to harmonize selection rates.
 ![Algorithmic Fairness Adjustment](fairness_adjustment.png)
 
 ---
