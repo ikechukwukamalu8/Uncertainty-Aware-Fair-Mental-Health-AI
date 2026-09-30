@@ -1,6 +1,6 @@
 # An Uncertainty-Aware and Fair Machine Learning Architecture for Workplace Mental Health Screening
 
-An advanced, dual-layered computational decision-support framework processing a harmonized multi-year cross-sectional survey dataset ($N = 1,242$) to deliver equitable screening and psychometric behavioral insights[cite: 1, 8]. This system explicitly balances statistical classification performance with algorithmic ethics to mitigate demographic selection disparities[cite: 1, 7].
+An advanced, dual-layered computational decision-support framework processing a harmonized multi-year cross-sectional survey dataset ($N = 1,242$) to deliver equitable screening and psychometric behavioral insights. This system explicitly balances statistical classification performance with algorithmic ethics to mitigate demographic selection disparities.
 
 🚀 **Interactive Live Dashboard Demo:** https://uncertainty-aware-fair-mental-health-ai-ksff2ss4ynfu4bn6w6aouz.streamlit.app
 
@@ -8,11 +8,11 @@ An advanced, dual-layered computational decision-support framework processing a 
 
 ## 📝 Project Abstract
 
-* **Background:** Automated workplace mental health decision-support systems frequently inherit structural dataset gender imbalances (65.5% male representation in the source sample) and latent self-reporting skews, creating potential fairness violations across demographic groups[cite: 8, 26].
-* **Objective:** To build an equitable screening framework that evaluates psychometric determinants of workplace disclosure while offering uncertainty-quantified predictions and post-hoc threshold calibrations that actively adjust for subgroup selection disparities[cite: 6, 7].
-* **Methodology:** The codebase integrates an **Ordered Logistic Regression Layer** evaluating an employee's willingness to share mental health concerns on an 11-point ordinal scale ($0\text{—}10$), paired with a **Bayesian Ridge Regression Scoring Layer** tracking overall predictive uncertainty (posterior variance)[cite: 15, 33]. Algorithmic equity is enforced using post-hoc group-specific decision boundary optimizations ($\tau$)[cite: 7, 27].
-* **Core Discovery:** Psychometric estimation shows that open, horizontal peer communication paths ($\beta = 0.5833, p < 0.001$) display a positive association with willingness to disclose that is more than twice as strong as formal top-down employer management frameworks ($\beta = 0.2492, p = 0.034$)[cite: 13, 14].
-* **Fairness Optimization:** The unadjusted baseline machine learning model exhibited a demographic disparity by flagging female professionals for elevated risk at a higher rate ($93.2\%$) than male professionals ($73.0\%$), resulting in a baseline Disparate Impact (DI) ratio of $1.276$[cite: 26, 27]. By calibrating custom group boundaries ($\tau_{\text{Male}} = 0.450$; $\tau_{\text{Female}} = 0.525$), our post-processing engine brought demographic selection to statistical parity (**$1.002$ DI Ratio**), aligning with standard four-fifths statistical fairness heuristics[cite: 26, 27, 28].
+* **Background:** Automated workplace mental health decision-support systems frequently inherit structural dataset gender imbalances (65.5% male representation in the source sample) and latent self-reporting skews, creating potential fairness violations across demographic groups.
+* **Objective:** To build an equitable screening framework that evaluates psychometric determinants of workplace disclosure while offering uncertainty-quantified predictions and post-hoc threshold calibrations that actively adjust for subgroup selection disparities
+* **Methodology:** The codebase integrates an **Ordered Logistic Regression Layer** evaluating an employee's willingness to share mental health concerns on an 11-point ordinal scale ($0\text{—}10$), paired with a **Bayesian Ridge Regression Scoring Layer** tracking overall predictive uncertainty (posterior variance). Algorithmic equity is enforced using post-hoc group-specific decision boundary optimizations ($\tau$).
+* **Core Discovery:** Psychometric estimation shows that open, horizontal peer communication paths ($\beta = 0.5833, p < 0.001$) display a positive association with willingness to disclose that is more than twice as strong as formal top-down employer management frameworks ($\beta = 0.2492, p = 0.034$).
+* **Fairness Optimization:** The unadjusted baseline machine learning model exhibited a demographic disparity by flagging female professionals for elevated risk at a higher rate ($93.2\%$) than male professionals ($73.0\%$), resulting in a baseline Disparate Impact (DI) ratio of $1.276$. By calibrating custom group boundaries ($\tau_{\text{Male}} = 0.450$; $\tau_{\text{Female}} = 0.525$), our post-processing engine brought demographic selection to statistical parity (**$1.002$ DI Ratio**), aligning with standard four-fifths statistical fairness heuristics.
 
 ---
 
@@ -25,7 +25,7 @@ An advanced, dual-layered computational decision-support framework processing a 
 | **Coworker Discussion** (Yes) | $0.5833^{***}$ | $0.111$ | $5.250$ | $0.000$ | $[0.366, 0.801]$ |
 | **Age** (Continuous) | $-0.0004$ | $0.006$ | $-0.059$ | $0.953$ | $[-0.012, 0.012]$ |
 
-**Note:** $*p < 0.05$, $***p < 0.001$. Model estimated via Maximum Likelihood Estimation ($N = 1,242$)[cite: 8, 13].
+**Note:** $*p < 0.05$, $***p < 0.001$. Model estimated via Maximum Likelihood Estimation ($N = 1,242$).
 
 ### Table 2: Algorithmic Vulnerability Screening Performance (Holdout Set)
 | Classification Framework | Target Risk Class | Precision | Recall (Sensitivity) | $F_1$-Score | Sample Support | Global Accuracy |
